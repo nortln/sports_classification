@@ -117,30 +117,33 @@ class_names = ['air hockey',
 
 def predict_image(request):
     # Load the saved model
-    model_path = "saved_model\EfficientNetB0-100-(224 X 224)- 98.40.h5"
-    
+    model_path = "/home/nortln/sports/saved_model/EfficientNetB0-100-(224 X 224)- 98.40.h5"
+
     # Register the custom metric function before loading the model
     model = tf.keras.models.load_model(
-    "saved_model\EfficientNetB0-100-(224 X 224)- 98.40.h5",
+    "/home/nortln/sports/saved_model/EfficientNetB0-100-(224 X 224)- 98.40.h5",
     custom_objects={'F1_score': F1_score})
+
+    context = {'prediction': None}
 
 
     if request.method == 'POST' and request.FILES['image']:
 
         uploaded_image = request.FILES['image']
 
-        
+
         img = Image.open(uploaded_image)
         height = 224
         width = 224
-       
+
         img = img.resize((width, height))
         img_array = np.array(img)
 
         prediction = model.predict(tf.expand_dims(img_array, axis=0))
 
-        
+
         f1 = "hello"
+
 
         prediction = np.argmax(prediction)
         print(prediction)
@@ -148,9 +151,11 @@ def predict_image(request):
         print(prediction)
 
 
+
+
         # Pass the prediction result and F1 score to the template context
         context = {'prediction': prediction}
 
-        
+
 
     return render(request, 'home.html', context)
