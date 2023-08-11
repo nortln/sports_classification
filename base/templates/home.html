@@ -1,25 +1,105 @@
-{% comment %} {% extends 'navbar.html' %}
-{% block content %} {% endcomment %}
-
-<!-- your_app_name/templates/upload_image_template.html -->
+{% comment %}
+{% extends 'navbar.html' %}
+{% block content %}
+{% endcomment %}
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Upload Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+     
+        .image-preview {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+        }
+    </style>
+    <script>
+
+        function handleImageUpload(input) {
+            var preview = document.querySelector('.image-preview img');
+            var file = input.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Upload Image</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="file" name="image" accept="image/*" required>
+        <input type="file" name="image" accept="image/*" onchange="handleImageUpload(this);" required>
         <input type="submit" value="Predict">
     </form>
-    <br><br><hr>
+    <hr>
     <h1>Prediction Result</h1>
     <p>The prediction is: {{ prediction }}</p>
+
+
+    <div class="image-preview">
+        <h2>Uploaded Image Preview</h2>
+        <img src="" alt="Image Preview">
+    </div>
 </body>
 </html>
 
-{% comment %} {% endblock content %}
- {% endcomment %}
+{% comment %}
+{% endblock content %}
+{% endcomment %}
