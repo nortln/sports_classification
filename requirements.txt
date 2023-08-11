@@ -1,4 +1,5 @@
 tensorflow
 pillow
-scikit-learn
+sklearn
+numpy
 django
