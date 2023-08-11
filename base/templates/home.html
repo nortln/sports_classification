@@ -1,0 +1,25 @@
+{% comment %} {% extends 'navbar.html' %}
+{% block content %} {% endcomment %}
+
+<!-- your_app_name/templates/upload_image_template.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*" required>
+        <input type="submit" value="Predict">
+    </form>
+    <br><br><hr>
+    <h1>Prediction Result</h1>
+    <p>The prediction is: {{ prediction }}</p>
+</body>
+</html>
+
+{% comment %} {% endblock content %}
+ {% endcomment %}
